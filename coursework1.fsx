@@ -38,6 +38,6 @@
 // tuples containing 2, 3, or 4 elements of float type.
 
 // 7. Write 3 functions 'allcaps2', 'allcaps3' and 'allcaps4' which capitalize
-// the names of strings in a tuple of strings of size 2,3, or 4.
+// the strings in a tuple of strings where the size of the tuple is either 2,3, or 4.
 // Hint: "abc".ToUpper ()
 
