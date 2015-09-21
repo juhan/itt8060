@@ -34,8 +34,9 @@
 // 4. Make a function that takes a tuple of five integers and returns a tuple of five integers where at the 
 // position of the largest element would be the result of division of the largest element with the smallest one greater than one.
 
-// 6. Make a function that returns the average of the value of elements in tuples containing
-// 2, 3, or four elements of float type.
+// 6. Make 3 functions that return the average of the value of elements in
+// tuples containing 2, 3, or 4 elements of float type.
 
-// 7. Write function 'allcaps' which capitalizes the names strings in a tuple of strings of size 2,3, or 4. Hint: "abc".ToUpper ()
+// 7. Write 3 functions 'allcaps' which capitalize the names of strings in a
+// tuple of strings of size 2,3, or 4. Hint: "abc".ToUpper ()
 
