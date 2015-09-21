@@ -37,6 +37,7 @@
 // 6. Make 3 functions that return the average of the value of elements in
 // tuples containing 2, 3, or 4 elements of float type.
 
-// 7. Write 3 functions 'allcaps' which capitalize the names of strings in a
-// tuple of strings of size 2,3, or 4. Hint: "abc".ToUpper ()
+// 7. Write 3 functions 'allcaps2', 'allcaps3' and 'allcaps4' which capitalize
+// the names of strings in a tuple of strings of size 2,3, or 4.
+// Hint: "abc".ToUpper ()
 
