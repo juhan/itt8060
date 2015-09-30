@@ -13,7 +13,7 @@
   ------------------------------------
 
 
-  Answer the questions below.  You answers to questions 1--5 should be
+  Answer the questions below.  You answers to questions 1--7 should be
   correct F# code written after the question. This file is an F#
   script file, it should be possible to load the whole file at
   once. If you can't then you have introduced a syntax error
@@ -23,14 +23,53 @@
   git system using the instructions on the course web page by October 9, 2015.
 *)
 
-// 1. Make a function rearrange: Fexpr -> Fexpr that will rearrange a finite expression tree (as defined in
-// the lecture in the differentiation example) in such a way that constants always are to the left of variables
-// in addition and multiplication and the variables with higher power in multiplication are pushed to the right.
+// 1. Make a function rearrange: Fexpr -> Fexpr that will rearrange a finite expression tree
+// (as defined in the lecture in the differentiation example) in such a way that constants
+// always are to the left of variables in addition and multiplication and the variables with
+// higher power in multiplication are pushed to the right.
+// Add(X, Const 1.0) -> Add(Const 1.0, X)
+// Mul(X, Const 1.0) -> Mul(Const 1.0, X)
+//Add
+//    (Mul (Const 0.0,Mul (Mul (X,X),X)),
+//     Mul
+//       (Const 2.0,
+//        Add
+//          (Mul (Const 1.0,Mul (X,X)),
+//           Mul (X,Add (Mul (Const 1.0,X),Mul (X,Const 1.0))))))
+// -> 
+//Add
+//    (Mul (Const 0.0,Mul (X,Mul (X,X))),
+//     Mul
+//       (Const 2.0,
+//        Add
+//          (Mul (Const 1.0,Mul (X,X)),
+//           Mul (X,Add (Mul (Const 1.0,X),Mul (Const 1.0,X))))))
+
+
+
 
 // 2. Make a function simplify: Fexpr -> Fexpr that will simplify a finite expression tree by removing
 // terms that evaluate to zero.
+//
+// For example:
+// Add (Const 0.0, X) -> X
+// Mul (Const 1.0, X) -> X
+//Add
+//    (Mul (Const 0.0,Mul (X,Mul (X,X))),
+//     Mul
+//       (Const 2.0,
+//        Add
+//          (Mul (Const 1.0,Mul (X,X)),
+//           Mul (X,Add (Mul (Const 1.0,X),Mul (Const 1.0,X))))))
+// ->
+//     Mul
+//       (Const 2.0,
+//        Add
+//          (Mul (X,X),
+//           Mul (X,Add (X,X)))
 
-// Given the type definition:
+
+// 3-4: Given the type definition:
 // type BList =
 //  | BEmpty
 //  | Snoc of BList * int
@@ -41,7 +80,7 @@
 // 4. Make the function mapB: (trans: int -> int) BList -> BList that will return a list where the function trans has
 // been applied to each element.
 
-// Given the type definition
+// 5-7. Given the type definition
 // type Tree =
 //  | Nil
 //  | Branch2 of Tree * int * Tree
