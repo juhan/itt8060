@@ -7,7 +7,9 @@
   Lecture 5: Option, functional values, generics
 
   Reading: Chapter 5 in RWFP
-           Chapter xx in the other book (specified later)
+
+           * Section 3.11 introduces option
+           * The other concepts are thoroughly explained in Chapters 4 and 5.
 
   Juhan Ernits
 
