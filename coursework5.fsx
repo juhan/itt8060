@@ -46,3 +46,4 @@
 //    in the solution
 
 // 4) Make a function that displays a histogram chart showing the distribution of
+//    the file sizes given a list of FileMetaData records.
