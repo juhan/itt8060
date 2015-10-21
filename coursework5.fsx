@@ -34,14 +34,15 @@
 
 *)
 
-// 1) Define a record type with the name FileMetaData representing the name of the file and the size of it. 
+// 1) Define a record type with the name FileMetaData representing the name
+//    of the file and the size of it. 
 
 // 2) Make a function that takes an array returned by Directory.GetFiles 
 //    and produces a list of instances of the record type defined in Q 1.
 
-// 3) Make a function called getFileMetadata of type string list -> FileMetaDataList
+// 3) Make a function called getFileMetadata of type string list -> FileMetaData list
 //    that takes a list of directories as strings and returns a list of FileMetaData records of
-//    all files contained in the directories.
+//    all files contained in the directories. You are encouraged to use List.collect
+//    in the solution
 
 // 4) Make a function that displays a histogram chart showing the distribution of
-//    the file sizes given a list of FileMetaData records.
