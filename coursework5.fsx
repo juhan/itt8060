@@ -21,11 +21,10 @@
   This coursework will be graded.
 
   Commit and push your solution to the repository as file
-  coursework5.fsx in directory coursework5. The downloaded data should go in
-  atoms.xml in the coursework5 directory.
+  coursework5.fsx in directory coursework5. 
 
   The deadline for completing the above procedure is Friday,
-  October 30, 2014.
+  October 30, 2015.
 
   We will consider the submission to be the latest version of the
   appropriate files in the appropriate directory before the deadline
