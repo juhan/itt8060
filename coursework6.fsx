@@ -28,7 +28,7 @@
   Please do not upload DLL-s. Just include a readme.txt file containing the 
   dependencies required (additional DLLs)
 
-  The deadline for completing the above procedure is Friday, November 13, 2014.
+  The deadline for completing the above procedure is Friday, November 13, 2015.
 
   We will consider the submission to be the latest version of the appropriate
   files in the appropriate directory before the deadline of a particular
