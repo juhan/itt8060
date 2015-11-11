@@ -84,7 +84,7 @@ and usesCreditCard =
 
 let rec testClientTree client tree =
     match tree with
-    | Result msg  -> printfn " OFFER A LOAN: %s" msg
+    | Result msg  -> printfn " OFFER A LOAN: %s" msg ; msg // Added that msg gets returned, otherwise side effects are hard to test.
     | Query qinfo -> let result, case = 
                          if qinfo.Check(client) then
                              "yes", qinfo.Positive
