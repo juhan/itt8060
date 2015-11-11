@@ -74,4 +74,24 @@ type FsCheckExample () =
         exceptionThrowingCode.f2 () = "OK"
 
 
+// In case you have trouble getting the FsCheck examples to work,
+// Uncomment the following code. It should appear in your project
+// as FsCheckAddin.fs, but if it does not, uncomment the code.
+// You may need to install NUnit Runtime package under Monodevelop
+// to make NUnit.Core namespace accessible.
+// Also, accessing FsCheck.NUnit and FsCheck.Nunit.Addin dll-s seems
+// to require some manual fixing in references in MonoDevelop.
+(*
+open NUnit.Core.Extensibility
 
+open FsCheck.NUnit
+open FsCheck.NUnit.Addin
+
+[<NUnitAddin(Description = "FsCheck addin")>]
+type FsCheckAddin() =
+    interface IAddin with
+        override x.Install host =
+            let tcBuilder = new FsCheckTestCaseBuilder()
+            host.GetExtensionPoint("TestCaseBuilders").Install(tcBuilder)
+            true
+*)
