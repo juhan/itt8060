@@ -20,6 +20,10 @@ open FsCheck
 
 // Generators
 
+// gen syntax uses computation expressions. let! will in this generator
+// computation expression take care of getting an instance 
+// of a value from the instance of a generator (look at the type 
+// returned by Gen.choose, and the type of idx).
 let chooseFromList xs =
    gen {
        let! idx = Gen.choose(0, List.length xs - 1)
@@ -27,6 +31,7 @@ let chooseFromList xs =
    }
 
 
+// apparently nth is deprecated. Use the index syntax instead.
 List.nth [1..5] 4
 [1..5].[4]
 
@@ -42,23 +47,40 @@ let booleanGen =
        gen {return false}
    ]
    
+// We can change the distribution. In the following example case 2/3 of the
+// values generated should be true
 let optimist =
    Gen.frequency [
       (2, gen {return true})
       (1, gen {return false})
    ]
 
-let f =
-   Prop.forAll(Arb.fromGen (optimist))
-          (fun x -> true) 
-   
-Check.Quick(f)
+// How to measure that? Well, let us define a property
+// e.g. x implies x, that should hold. Let's add 
+// appropriate classifiers to it.
+let xImpliesX (x : bool) = 
+    (not x || x)
+    |> Prop.classify (x=true) "True"
+    |> Prop.classify (x=false) "False" 
+
+// Now define a property which will try to invalidate the
+// above property. There is no point in trying true and false
+// multpiple times, but we are interested in measuring the
+// distribution.
+let forAllXImpliesX =
+    Prop.forAll (Arb.fromGen (optimist2)) 
+      (fun x -> xImpliesX x)
+
+Check.Quick forAllXImpliesX
 
 type Tree =
   | Leaf of int
   | Branch of Tree * Tree
 
 
+// This generator may generate arbitrarily big trees.
+// Thus generating values itself may take considerable
+// resources.
 let rec unsafeTreeGen () =
    Gen.oneof [
       Gen.map Leaf Arb.generate<int>
@@ -67,6 +89,8 @@ let rec unsafeTreeGen () =
                (unsafeTreeGen ())
    ]
 
+// Thus, we should limit the size of the generated data 
+// structure.
 let treeGen =
   let rec sizedTreeGen size =
     match size with
@@ -106,6 +130,20 @@ let leavesNotEmpty' tree = List.length (leaves tree) > 0
 Check.Verbose leavesNotEmpty'
 
 
+// An example how to generate strings given a list of characters:
+
+let createStringFromChars (cs : char list) = 
+    gen {
+       let! chars = Gen.arrayOf (Gen.elements cs)
+       return System.String.Concat(chars)
+    }
+
+// just to demonstrate the generated strings with a property that always holds:
+let testStringGen =
+    Prop.forAll (Arb.fromGen (createStringFromChars ['A'; 'T'; 'G'; 'P'] ))
+                 (fun p -> true)
+
+Check.Verbose testStringGen
 
 // Lazy
 
@@ -136,7 +174,6 @@ let add =
      | _       -> let v = addSimple x
                   cache.Add(x,v)
                   v)
-
 
 add(2,3)
 add(2,3)
