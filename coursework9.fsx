@@ -16,7 +16,7 @@ Extend the program skeleton with implementations of the following functions:
 won, that is, there is a full row
  myMove: Game -> Move. This function returns the computer's move for a given state
 of the game, by use of the strategy described above.
- performMove: Game -> Move -> Game. This function performs a move (i; n) in a
+ performMove: Game -> Move -> Game. This function performs a move (xo; n) in a
 game state g.
 You can now play Tic Tac Toe: enter a game in a text box with predefined board
 and engage in alternating move events with the computer until a winner is found.
@@ -130,7 +130,6 @@ type Message = | NewGame of string     // a string of n>0 integers "  I1    I2  
                | UserMove of string    // String with two integers for a move indicating the coordinate of the 3x3 cell
                | Fetch                 // Fetch a game
                | Cancel                // to cancel a download
-               ;;  
 
 
 
@@ -178,13 +177,17 @@ let xOrO (g: Game) = let i = Array.fold (fun i c ->
 let moveOfString (g: Game) (str:string) =               
                let stra = str.Split([|' '|],System.StringSplitOptions.RemoveEmptyEntries)
                if stra.Length = 2 && isIntegerString(stra.[0]) && isIntegerString(stra.[1])
-               then let (h,n) = (xOrO g,(int stra.[0]) * (int stra.[1])-1)
+                  && int stra.[0] > 0 && int stra.[0] < 4 && int stra.[1] > 0 && int stra.[1] < 4
+               then let x = int stra.[0]
+                    let y = int stra.[1]
+                    let (h,n) = (xOrO g,x + (y-1) * 3 - 1)
                     if n >= 0 || n<g.Length then
                         match g.[n] with
                         | None -> Some (h,n)
                         | _ -> None 
                     else None
-               else None;;
+               else None
+
 
 // gameOfString: string -> Game option
 let gameOfString (str:string) = Some [|None;None;None;None;None;None;None;None;None|]
@@ -240,7 +243,7 @@ and userTurn g =
                                         else return! myTurn g'
                            | None    -> statusBox.Text <- "illegal input"
                                         return! userTurn g                                                        
-         | _           -> failwith "unexpected message"};;
+         | _           -> failwith "unexpected message"}
 
 
 // No changes will be needed below this comment                                                                 
