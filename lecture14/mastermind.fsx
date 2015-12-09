@@ -9,7 +9,8 @@ let check (code : Code)(guess : Code) : Hints =
     let rightPlaces = List.map2 (fun x y -> x = y) code guess
     let wrongPlace g = List.exists (fun c -> g = c) code
     let wrongPlaces = List.map wrongPlace guess
-    let test b1 b2 = match (b1,b2) with
+    let test b1 b2 =
+        match (b1,b2) with
         | (true,_) -> RightPlace
         | (false,true) -> WrongPlace
         | _            -> Missing
@@ -114,5 +115,4 @@ let rec run (s : State) : unit =
                 Console.WriteLine("You lose!")
                 run (next Start Reset)
                           
-                          
-                          
+run Start
