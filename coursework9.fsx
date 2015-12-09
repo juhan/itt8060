@@ -1,5 +1,5 @@
 ﻿(*
-Tic Tac Toe Assignment  02-12-2015 (updated 9-12-2015)
+Tic Tac Toe Assignment  02-12-2015
 Skeleton Program 
 
 Upload the solution to your GIT repository into directory called coursework9
@@ -156,6 +156,10 @@ let gameToString (g: Game) =
       | Some m -> (s + string m + nl,i')
    fst (Array.fold cellToStr ("",0) g)
 
+
+
+//let stra = Array.mapi (fun i n -> match string i + ": " + string n) g
+//                             String.concat "  ;  " stra;; 
                               
 // moveToString: Move -> string
 let moveToString (h,n) = let str = string h + "  " + string n
@@ -174,7 +178,7 @@ let xOrO (g: Game) = let i = Array.fold (fun i c ->
 let moveOfString (g: Game) (str:string) =               
                let stra = str.Split([|' '|],System.StringSplitOptions.RemoveEmptyEntries)
                if stra.Length = 2 && isIntegerString(stra.[0]) && isIntegerString(stra.[1])
-               then let (h,n) = (Some (xOrO g),(int stra.[0]) * (int stra.[1])-1)
+               then let (h,n) = (xOrO g,(int stra.[0]) * (int stra.[1])-1)
                     if n >= 0 || n<g.Length then
                         match g.[n] with
                         | None -> Some (h,n)
@@ -183,12 +187,7 @@ let moveOfString (g: Game) (str:string) =
                else None;;
 
 // gameOfString: string -> Game option
-let gameOfString (str:string) = let stra = str.Split([|' '|],System.StringSplitOptions.RemoveEmptyEntries)
-                                if stra.Length > 0 && Array.forall isIntegerString stra
-                                then let g = Array.map int stra
-                                     if Array.forall (fun n -> n>0) g then Some g
-                                     else None
-                                else None
+let gameOfString (str:string) = Some [|None;None;None;None;None;None;None;None;None|]
 
 // printMove: Game -> Move -> Player -> unit
 let printMove (g: Game) mv player = gameBox.AppendText ("\r\n" + gameToString g + "    " + moveToString mv player) 
@@ -219,22 +218,25 @@ and myTurn g =
    async{let mv = myMove g
          let g' = performMove g mv
          printMove g' mv Me 
-         if fullRow g' then statusBox.Text <- "I won"
-                                  return! init()
-         else return! userTurn g'}
+         if fullRow g' then 
+             statusBox.Text <- "I won"
+             return! init()
+         else
+             return! userTurn g'}
                         
 and userTurn g = 
    async{infoBox.Text <- "state where you would like to place your token"
          inputBox.Text <- ""
-         disable [newGameButton; fetchButton; cancelButton]
+         disable [newGameButton; cancelButton]
 
          let! msg = ev.Receive()
          match msg with
          | UserMove str -> match moveOfString g str with 
                            | Some mv -> let g' = performMove g mv 
                                         printMove g' mv You
-                                        if fullRow g' then statusBox.Text <- "You won"
-                                                                 return! init()
+                                        if fullRow g' then
+                                            statusBox.Text <- "You won"
+                                            return! init()
                                         else return! myTurn g'
                            | None    -> statusBox.Text <- "illegal input"
                                         return! userTurn g                                                        
