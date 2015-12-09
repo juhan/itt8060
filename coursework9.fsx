@@ -1,5 +1,5 @@
 ﻿(*
-Tic Tac Toe Assignment  02-12-2015
+Tic Tac Toe Assignment  02-12-2015 (updated 9-12-2015)
 Skeleton Program 
 
 Upload the solution to your GIT repository into directory called coursework9
@@ -116,7 +116,7 @@ let disable bs =
 
 type XO = X | O
 
-type Game = XO option []     // We assume that the rows of tic tac toe are represented in sequence in the array. The lenght is 9.
+type Game = XO option []     // We assume that the rows of tic tac toe are represented in sequence in the array. The length is 9.
                              // No tokens on the board is represented by an array containing None values.
 
 type Move = XO * int  // Places X or O in the appropriate position
@@ -127,7 +127,7 @@ type Player = | You   // the user
 
 type Message = | NewGame of string     // a string of n>0 integers "  I1    I2     ...  In  
                | Quit                  // Give up current game
-               | UserMove of string    // String with two integers for a move
+               | UserMove of string    // String with two integers for a move indicating the coordinate of the 3x3 cell
                | Fetch                 // Fetch a game
                | Cancel                // to cancel a download
                ;;  
@@ -147,8 +147,15 @@ type Message = | NewGame of string     // a string of n>0 integers "  I1    I2  
 
 
 // gameToString: Game -> string                           
-let gameToString (g: Game) = let stra = Array.mapi (fun i n -> string i + ": " + string n) g
-                             String.concat "  ;  " stra;; 
+let gameToString (g: Game) = 
+   let cellToStr (s,i) c = 
+      let i' = (i + 1) % 3
+      let nl = if i'<i then Environment.NewLine else "" 
+      match c with
+      | None   -> (s + " "+nl,i')
+      | Some m -> (s + string m + nl,i')
+   fst (Array.fold cellToStr ("",0) g)
+
                               
 // moveToString: Move -> string
 let moveToString (h,n) = let str = string h + "  " + string n
@@ -159,12 +166,19 @@ let moveToString (h,n) = let str = string h + "  " + string n
 // isIntegerString: string -> bool
 let isIntegerString str = String.forall Char.IsDigit str
 
+let xOrO (g: Game) = let i = Array.fold (fun i c -> 
+                       match c with | Some X -> i + 1 | Some O -> i - 1 | _ -> i ) 0 g
+                     if i <= 0 then X else O
+
 // moveOfString: Game -> string -> Move option
 let moveOfString (g: Game) (str:string) =               
                let stra = str.Split([|' '|],System.StringSplitOptions.RemoveEmptyEntries)
                if stra.Length = 2 && isIntegerString(stra.[0]) && isIntegerString(stra.[1])
-               then let (h,n) = (int stra.[0], int stra.[1])
-                    if 0 <= h && h < g.Length && 0<n && n <= g.[h] then Some(h,n) 
+               then let (h,n) = (Some (xOrO g),(int stra.[0]) * (int stra.[1])-1)
+                    if n >= 0 || n<g.Length then
+                        match g.[n] with
+                        | None -> Some (h,n)
+                        | _ -> None 
                     else None
                else None;;
 
