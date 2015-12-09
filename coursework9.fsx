@@ -145,6 +145,11 @@ type Message = | NewGame of string     // a string of n>0 integers "  I1    I2  
 // Should be implemented
 
 
+let xoToString (xo : XO) =
+   match xo with
+   | X -> "X"
+   | O -> "O"
+
 // gameToString: Game -> string                           
 let gameToString (g: Game) = 
    let cellToStr (s,i) c = 
@@ -152,7 +157,7 @@ let gameToString (g: Game) =
       let nl = if i'<i then Environment.NewLine else "" 
       match c with
       | None   -> (s + " "+nl,i')
-      | Some m -> (s + string m + nl,i')
+      | Some m -> (s + (xoToString m) + nl,i')
    fst (Array.fold cellToStr ("",0) g)
 
 
