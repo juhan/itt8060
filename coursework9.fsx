@@ -84,6 +84,7 @@ let gameBox =
 
 gameBox.Multiline <- true
 gameBox.AcceptsReturn <- true
+gameBox.ScrollBars <- ScrollBars.Vertical
 
 
 let newGameButton =
@@ -131,18 +132,23 @@ type Message = | NewGame of string     // a string of n>0 integers "  I1    I2  
                | Fetch                 // Fetch a game
                | Cancel                // to cancel a download
 
+let xOrO (g: Game) = let i = Array.fold (fun i c -> 
+                       match c with | Some X -> i + 1 | Some O -> i - 1 | _ -> i ) 0 g
+                     if i <= 0 then X else O
 
 
 // fullRow: Game -> bool
 // checks if there is a row containing all same tokens                         
 // Should be implemented
-
+let fullRow (g: Game) : bool = false // NB! implementation missing
 
 // myMove: Game -> Move
 // Should be implemented
+let myMove (g: Game) : Move = (O, 5) // NB! implementation missing
 
 // performMove: Game -> Move -> Game
 // Should be implemented
+let performMove (g: Game) (m: Move) : Game = g // NB! implementation missing
 
 
 let xoToString (xo : XO) =
@@ -166,7 +172,7 @@ let gameToString (g: Game) =
 //                             String.concat "  ;  " stra;; 
                               
 // moveToString: Move -> string
-let moveToString (h,n) = let str = string h + "  " + string n
+let moveToString (h,n) = let str = xoToString h + "  " + string n
                          function 
                          | You -> "Your move: " + str
                          | Me  -> "My move  : " + str  
@@ -174,9 +180,6 @@ let moveToString (h,n) = let str = string h + "  " + string n
 // isIntegerString: string -> bool
 let isIntegerString str = String.forall Char.IsDigit str
 
-let xOrO (g: Game) = let i = Array.fold (fun i c -> 
-                       match c with | Some X -> i + 1 | Some O -> i - 1 | _ -> i ) 0 g
-                     if i <= 0 then X else O
 
 // moveOfString: Game -> string -> Move option
 let moveOfString (g: Game) (str:string) =               
@@ -207,7 +210,7 @@ let ev = AsyncEventQueue()
 // myTurn: Game -> Async(unit)
 // yourTurn: Game -> Async(unit)
 let rec init() = 
-   async{infoBox.Text   <- "New game: state size of the board"
+   async{infoBox.Text   <- "New game: press 'Start' to start the game."
          inputBox.Text  <- ""
          gameBox.Text   <- ""
          disable [moveButton; quitButton; cancelButton]
@@ -270,4 +273,4 @@ quitButton.Click.Add (fun _ -> ev.Post Quit)
 
 // Start
 Async.StartImmediate (init())
-window.Show()    
+window.Show() //In Linux/MacOS X use Application.Run(window)
