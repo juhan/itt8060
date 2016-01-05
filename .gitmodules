@@ -1,0 +1,3 @@
+[submodule "fsharp-cheatsheet"]
+	path = fsharp-cheatsheet
+	url = https://github.com/dungpa/fsharp-cheatsheet.git

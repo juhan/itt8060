@@ -8,3 +8,7 @@ convert("IV")
 convert("VII")
 convert("IX")
 convert("XX")
+
+convert("IIII")
+
+convert("XXXXX")

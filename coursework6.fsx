@@ -48,13 +48,13 @@
 
 (*   1) You are given the code in file coursework6input/Library1.fs that can be
      compiled to BrokenRomanNumbers.dll.
-     You are expected to test the code using NUnit or FsCheck unit tests (at least 6 in total).
+     You are expected to test the code using NUnit or FsUnit unit tests (at least 6 in total).
 *)
 
 (*   2) List faults discovered as a table. Please try to shrink the inputs
      to the smallest samples corresponding to the appropriate fault.
 
-RomanNumber ExpectedOutput OutputFromConvert FoundWithFsCheckOrNUnit
+RomanNumber ExpectedOutput OutputFromConvert
 *)
 
 (*   3) Write a CorrectRomanNumbers implementation in functional style that you
